@@ -1,36 +1,34 @@
-# Paper Crumple — Houdini VAT × Three.js
+# Paper Crumple — React × Three.js × Houdini VAT
 
-An interactive demo of crumpled paper balls: click one to unfold it into a card, drag to pick it up, flick to throw it. The crumpling animation is a Vellum simulation baked in Houdini as **VAT (Vertex Animation Textures)**, decoded and played back in Three.js, with cannon-es handling the physics.
+An interactive React application featuring 3D crumpled paper balls: click one to unfold it into a card facing the camera, drag to pick it up, and flick to toss it into the physics scene. The crumpling and unfolding animation is driven by a Houdini Vellum simulation baked as **VAT (Vertex Animation Textures)**, decoded and rendered in Three.js, with Cannon.js handling rigid-body physics.
 
-- **Live demo:** https://paper-crumple-demo.pages.dev/
-- Made for the Codrops article *Building an Interactive Crumpled Paper Effect with Houdini VAT and Three.js*
+## Features Ported & Preserved
 
-## Running it
+- **Houdini VAT Playback**: Decodes FBX geometry and 32-bit floating point EXR displacement textures, with automatic motion delta trimming and point-averaged smooth normals.
+- **Procedural Canvas Textures**: Custom grid paper with responsive hand-drawn typography (Caveat and Yomogi handwriting fonts), dynamic text measurement & line-wrapping, and vector SVG branding badges.
+- **Interactive Physics**: Cannon.js simulation with realistic mass, restitution, friction, rolling resistance, boundary pulling, and velocity inertia when thrown.
+- **Card State Machine**: Smooth transitions between folded paper balls, unfolding cards facing the camera, grabbed states, and tossing/discarding back into the scene.
+- **Simulation GUI Controls**: Integrated Lil-GUI panel providing real-time tweaking of lighting (ambient, key light, fill light), screen-space ambient occlusion (SSAO), background and floor colors, animation speed, open frame, paper count, and camera settings.
+- **React Architecture**: Fully encapsulated in a modular React + TypeScript architecture with Tailwind CSS styling and lifecycle management.
 
-No install and no build step — everything here is plain static files. Dependencies (three.js and cannon-es) are resolved from a CDN via the import map in `index.html`.
+## Tech Stack
 
-Serve this folder with any static file server and open it in a browser:
+- **React 19**
+- **Vite 6**
+- **TypeScript 5**
+- **Three.js & cannon-es**
+- **lil-gui**
+- **Tailwind CSS v4**
 
-```sh
-npx serve .
-# or
-python3 -m http.server 8000
+## Development
+
+```bash
+npm install
+npm run dev
 ```
 
-(Opening `index.html` directly from the file system won't work — browsers block ES module and asset loading over `file://`.)
+Build for production:
 
-## What's inside
-
+```bash
+npm run build
 ```
-index.html      Entry point (import map + markup)
-src/            The demo source, as-is
-  main-vat.js   Scene, physics, interaction, state machine
-  paper-vat.js  VAT loader: FBX + EXR decoding, smooth normals
-  paper.js      Paper-face design composed with Canvas 2D
-vat/            Houdini VAT export (FBX mesh + EXR position texture)
-data/           Thumbnail SVGs for the fictional paper designs
-```
-
-## License
-
-[MIT](./LICENSE)
