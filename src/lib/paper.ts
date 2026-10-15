@@ -6,7 +6,9 @@ export const LETTER_QUOTES: LoveLetterQuote[] = getLetterQuotes();
 const TEX_W = 1024;
 const TEX_H = 1400;
 
-const HAND_FONT = '"Ma Shan Zheng", "ZCOOL KuaiLe", "Caveat", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Serif SC", serif';
+// 统一采用规范、秀丽、无兼容畸变的经典衬线与清爽宋体字库，确保所有设备渲染完美一致
+const UNIFIED_FONT = '"Noto Serif SC", "Source Han Serif SC", "Songti SC", "STSong", "SimSun", serif';
+const HAND_FONT = '"Noto Serif SC", "Source Han Serif SC", "STSong", serif';
 
 export interface PaperColorTheme {
   name: string;
@@ -25,7 +27,7 @@ export interface PaperColorTheme {
 
 export const PAPER_THEMES: PaperColorTheme[] = [
   {
-    name: "樱粉笺", // 浪漫樱花粉
+    name: "樱粉笺",
     paperBg: "#fff0f3",
     paperAccent: "#ffe1e7",
     border: "rgba(225, 130, 155, 0.6)",
@@ -39,7 +41,7 @@ export const PAPER_THEMES: PaperColorTheme[] = [
     stampBg: "#fce0e6",
   },
   {
-    name: "天青笺", // 清透天青蓝
+    name: "天青笺",
     paperBg: "#edf8fa",
     paperAccent: "#d8f0f5",
     border: "rgba(85, 165, 185, 0.6)",
@@ -53,7 +55,7 @@ export const PAPER_THEMES: PaperColorTheme[] = [
     stampBg: "#d3edf3",
   },
   {
-    name: "缃黄笺", // 暖阳杏黄麦浪
+    name: "缃黄笺",
     paperBg: "#fff9ea",
     paperAccent: "#ffefcc",
     border: "rgba(215, 160, 80, 0.6)",
@@ -67,7 +69,7 @@ export const PAPER_THEMES: PaperColorTheme[] = [
     stampBg: "#fbe8c3",
   },
   {
-    name: "丁香笺", // 梦幻丁香紫
+    name: "丁香笺",
     paperBg: "#f7f1fc",
     paperAccent: "#ecddf9",
     border: "rgba(160, 125, 215, 0.6)",
@@ -81,7 +83,7 @@ export const PAPER_THEMES: PaperColorTheme[] = [
     stampBg: "#ebd7fb",
   },
   {
-    name: "竹青笺", // 清新嫩绿春竹
+    name: "竹青笺",
     paperBg: "#f0f8f1",
     paperAccent: "#dbf0df",
     border: "rgba(110, 175, 120, 0.6)",
@@ -95,7 +97,7 @@ export const PAPER_THEMES: PaperColorTheme[] = [
     stampBg: "#d8f2dc",
   },
   {
-    name: "暮霞笺", // 温润落日暮橙
+    name: "暮霞笺",
     paperBg: "#fff3ec",
     paperAccent: "#ffe2d3",
     border: "rgba(235, 140, 110, 0.6)",
@@ -109,7 +111,7 @@ export const PAPER_THEMES: PaperColorTheme[] = [
     stampBg: "#fde1d1",
   },
   {
-    name: "月白笺", // 经典素雅月白
+    name: "月白笺",
     paperBg: "#fdfbf7",
     paperAccent: "#f3eee3",
     border: "rgba(165, 135, 105, 0.55)",
@@ -135,9 +137,6 @@ interface LetterState {
 
 const letterStates: Map<number, LetterState> = new Map();
 
-/**
- * 绘制信笺右上角的古典印鉴
- */
 function drawRedSeal(
   ctx: CanvasRenderingContext2D,
   x: number,
@@ -149,19 +148,16 @@ function drawRedSeal(
   ctx.translate(x, y);
   ctx.rotate(0.04);
 
-  // 印章外框
   ctx.strokeStyle = color;
   ctx.lineWidth = 3.5;
   ctx.strokeRect(-28, -28, 56, 56);
 
-  // 印章内细框
   ctx.strokeStyle = color.replace(/[\d\.]+\)$/, '0.45)');
   ctx.lineWidth = 1.2;
   ctx.strokeRect(-24, -24, 48, 48);
 
-  // 印文
   ctx.fillStyle = color;
-  ctx.font = 'bold 22px "Ma Shan Zheng", "PingFang SC", serif';
+  ctx.font = `bold 22px ${HAND_FONT}`;
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
   ctx.fillText(text, 0, 1);
@@ -169,9 +165,6 @@ function drawRedSeal(
   ctx.restore();
 }
 
-/**
- * 绘制复古邮票与水墨戳记
- */
 function drawPostStamp(
   ctx: CanvasRenderingContext2D,
   x: number,
@@ -181,27 +174,23 @@ function drawPostStamp(
   ctx.save();
   ctx.translate(x, y);
 
-  // 齿孔邮票底色
   ctx.fillStyle = theme.stampBg;
   ctx.fillRect(-45, -35, 90, 70);
 
-  // 邮票边框
   ctx.strokeStyle = theme.border;
   ctx.lineWidth = 1.5;
   ctx.strokeRect(-43, -33, 86, 66);
 
-  // 邮票图案（小飞鸟与爱心）
   ctx.fillStyle = theme.inkTitle;
   ctx.font = '28px serif';
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
   ctx.fillText("🕊️", 0, -5);
 
-  ctx.font = 'bold 10px font-mono';
+  ctx.font = 'bold 10px sans-serif';
   ctx.fillStyle = theme.inkTitle;
   ctx.fillText("LOVE LETTER", 0, 20);
 
-  // 邮戳波浪印
   ctx.strokeStyle = theme.border;
   ctx.lineWidth = 1.5;
   ctx.beginPath();
@@ -218,9 +207,6 @@ function drawPostStamp(
   ctx.restore();
 }
 
-/**
- * 将整段金句按信笺宽度智能折行
- */
 function wrapQuoteText(
   ctx: CanvasRenderingContext2D,
   text: string,
@@ -249,22 +235,17 @@ function wrapQuoteText(
   return lines;
 }
 
-/**
- * 绘制高品质彩色情书信笺纹理
- */
 function drawLoveLetter(
   ctx: CanvasRenderingContext2D,
   quote: LoveLetterQuote,
   theme: PaperColorTheme
 ) {
-  // 1. 采用主题渐变纸张底色
   const bgGrad = ctx.createLinearGradient(0, 0, TEX_W, TEX_H);
   bgGrad.addColorStop(0, theme.paperBg);
   bgGrad.addColorStop(1, theme.paperAccent);
   ctx.fillStyle = bgGrad;
   ctx.fillRect(0, 0, TEX_W, TEX_H);
 
-  // 2. 复古双层信纸装饰边框
   const margin = 50;
   ctx.strokeStyle = theme.border;
   ctx.lineWidth = 2.5;
@@ -274,7 +255,6 @@ function drawLoveLetter(
   ctx.lineWidth = 1;
   ctx.strokeRect(margin + 8, margin + 8, TEX_W - margin * 2 - 16, TEX_H - margin * 2 - 16);
 
-  // 四角典雅菱形装饰点
   const corners = [
     [margin + 8, margin + 8],
     [TEX_W - margin - 8, margin + 8],
@@ -288,7 +268,6 @@ function drawLoveLetter(
     ctx.fill();
   }
 
-  // 3. 信笺横格纹线
   const lineStartY = 280;
   const lineSpacing = 74;
   const lineEndY = 1180;
@@ -301,54 +280,50 @@ function drawLoveLetter(
     ctx.stroke();
   }
 
-  // 4. 右上角邮戳与彩色邮票
   drawPostStamp(ctx, TEX_W - margin - 100, margin + 85, theme);
 
-  // 5. 左上角信笺抬头 (Salutation)
+  // 抬头采用统一规范秀丽字体
   ctx.fillStyle = theme.inkTitle;
-  ctx.font = `bold 52px ${HAND_FONT}`;
+  ctx.font = `bold 48px ${UNIFIED_FONT}`;
   ctx.textAlign = "left";
   ctx.textBaseline = "middle";
   ctx.fillText(`「${quote.salutation}」`, margin + 45, margin + 85);
 
-  // 抬头下方精致小副标
   ctx.fillStyle = theme.inkTitle;
   ctx.globalAlpha = 0.65;
-  ctx.font = `22px "PingFang SC", serif`;
+  ctx.font = `22px ${UNIFIED_FONT}`;
   ctx.fillText(`—— 打开时光揉皱的心事 · ${theme.name}`, margin + 50, margin + 138);
   ctx.globalAlpha = 1.0;
 
-  // 6. 核心正文 (金句排版优化)
+  // 正文排版 (统一使用规范宋体/衬线字库，杜绝字形畸变与毛刺)
   const content = quote.content;
   const maxContentW = TEX_W - margin * 2 - 130;
 
-  let fontSize = 54;
-  let lineHeight = 86;
+  let fontSize = 48;
+  let lineHeight = 80;
   if (content.length > 55) {
-    fontSize = 44;
-    lineHeight = 72;
+    fontSize = 40;
+    lineHeight = 68;
   } else if (content.length < 25) {
-    fontSize = 62;
-    lineHeight = 98;
+    fontSize = 54;
+    lineHeight = 90;
   }
 
-  ctx.font = `${fontSize}px ${HAND_FONT}`;
+  ctx.font = `${fontSize}px ${UNIFIED_FONT}`;
   const lines = wrapQuoteText(ctx, content, maxContentW);
 
   const totalTextHeight = lines.length * lineHeight;
   const contentCenterY = 700;
   let textStartY = Math.max(340, contentCenterY - totalTextHeight / 2 + lineHeight * 0.7);
 
-  // 绘制开篇大引文
   ctx.fillStyle = theme.border;
   ctx.globalAlpha = 0.35;
   ctx.font = `bold 120px serif`;
   ctx.fillText("“", margin + 30, textStartY - 20);
   ctx.globalAlpha = 1.0;
 
-  // 绘制每行正文
   ctx.fillStyle = theme.inkBody;
-  ctx.font = `${fontSize}px ${HAND_FONT}`;
+  ctx.font = `${fontSize}px ${UNIFIED_FONT}`;
   ctx.textAlign = "left";
   ctx.textBaseline = "middle";
 
@@ -358,7 +333,6 @@ function drawLoveLetter(
     ctx.fillText(line, margin + 65 + indent, textStartY + i * lineHeight);
   }
 
-  // 结尾引文
   const lastLineY = textStartY + (lines.length - 1) * lineHeight;
   ctx.fillStyle = theme.border;
   ctx.globalAlpha = 0.35;
@@ -367,20 +341,17 @@ function drawLoveLetter(
   ctx.fillText("”", Math.min(margin + 80 + lastLineWidth, TEX_W - margin - 80), lastLineY + 25);
   ctx.globalAlpha = 1.0;
 
-  // 7. 信笺落款
   ctx.fillStyle = theme.inkSignature;
-  ctx.font = `36px ${HAND_FONT}`;
+  ctx.font = `34px ${UNIFIED_FONT}`;
   ctx.textAlign = "right";
   ctx.textBaseline = "alphabetic";
   ctx.fillText(quote.signature, TEX_W - margin - 140, 1230);
 
-  // 8. 主题印章
   drawRedSeal(ctx, TEX_W - margin - 75, 1215, theme.sealText, theme.sealColor);
 
-  // 9. 信纸底栏编号水印
   ctx.fillStyle = theme.border;
   ctx.globalAlpha = 0.7;
-  ctx.font = '16px font-mono';
+  ctx.font = '16px sans-serif';
   ctx.textAlign = "center";
   ctx.fillText(`LETTER NO. ${String(quote.id).padStart(3, '0')} / 100 · ${theme.name}`, TEX_W / 2, TEX_H - margin - 15);
   ctx.globalAlpha = 1.0;
@@ -388,9 +359,8 @@ function drawLoveLetter(
 
 if (typeof document !== 'undefined' && document.fonts) {
   Promise.all([
+    document.fonts.load('100px "Noto Serif SC"'),
     document.fonts.load('100px "Ma Shan Zheng"'),
-    document.fonts.load('100px "ZCOOL KuaiLe"'),
-    document.fonts.load('100px "Caveat"'),
   ]).then(() => {
     for (const [, state] of letterStates) {
       drawLoveLetter(state.ctx, state.quote, state.theme);
@@ -399,9 +369,6 @@ if (typeof document !== 'undefined' && document.fonts) {
   }).catch(() => {});
 }
 
-/**
- * 根据索引获取对应彩色情书材质
- */
 export function getLetterMaterial(index: number): THREE.MeshStandardMaterial {
   const quoteIndex = index % LETTER_QUOTES.length;
   const quote = LETTER_QUOTES[quoteIndex];

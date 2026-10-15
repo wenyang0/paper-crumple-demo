@@ -7,18 +7,18 @@ import { Sliders, RefreshCw, Copy, Check, Heart, Sparkles, AlertCircle } from 'l
 const MIN_SPLASH_DURATION_MS = 3000;
 
 const STAGE_MILESTONES = [
-  { at: 0, text: '正在唤醒小猫与收集 100 封心动情书...' },
+  { at: 0, text: '正在唤醒小猫与收集心动力量金句...' },
   { at: 20, text: '正在绘制手绘方格与古典信笺纹理...' },
   { at: 45, text: '正在将浪漫金句研磨入墨、装入纸团...' },
   { at: 70, text: '正在平滑法线与调配 3D 纸张柔韧度...' },
-  { at: 90, text: '正在将情书纸团撒向地面物理空间...' },
-  { at: 100, text: '情书已就绪！点击展开专属温暖 💌' },
+  { at: 90, text: '正在将金句纸团撒向地面物理空间...' },
+  { at: 100, text: '金句已就绪！点击展开专属温暖 💌' },
 ];
 
 export default function App() {
   const [loading, setLoading] = useState(true);
   const [loadingProgress, setLoadingProgress] = useState(12);
-  const [loadingStage, setLoadingStage] = useState('正在唤醒小猫与收集 100 封心动情书...');
+  const [loadingStage, setLoadingStage] = useState('正在唤醒小猫与收集 心动力量金句...');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [guiOpen, setGuiOpen] = useState(() => {
     if (typeof window !== 'undefined') {
@@ -66,7 +66,7 @@ export default function App() {
       if (elapsed >= MIN_SPLASH_DURATION_MS && sceneLoadedRef.current) {
         clearInterval(interval);
         setLoadingProgress(100);
-        setLoadingStage('情书已就绪！点击展开专属温暖 💌');
+        setLoadingStage('金句已就绪！点击展开专属温暖 💌');
 
         setTimeout(() => {
           setLoading(false);
@@ -153,7 +153,7 @@ export default function App() {
       <div className={`absolute top-3 sm:top-4 left-3 sm:left-4 z-50 flex items-center gap-2 pointer-events-auto flex-wrap ${shaking ? 'animate-bounce' : ''}`}>
         <div className="px-3 sm:px-3.5 py-1.5 bg-black/40 backdrop-blur-md text-white/95 rounded-full text-xs tracking-wide border border-white/20 shadow-sm flex items-center gap-1.5">
           <Heart className="w-3.5 h-3.5 text-pink-300 fill-pink-300 animate-pulse shrink-0" />
-          <span className="font-semibold">揉皱情书</span>
+          <span className="font-semibold">揉皱金句</span>
           <span className="hidden sm:inline text-white/70">· 唯美金句</span>
         </div>
 

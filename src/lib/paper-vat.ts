@@ -73,6 +73,8 @@ export async function loadVATData(
   const currentDir = typeof window !== 'undefined' ? window.location.pathname.replace(/[^/]*$/, '') : '/';
 
   const fbxCandidates = [
+    `https://cdn.jsdelivr.net/gh/tanwenyang1/paper-crumple-demo@main/public/vat/geo/vertex_animation_textures1_mesh.fbx`,
+    `https://fastly.jsdelivr.net/gh/tanwenyang1/paper-crumple-demo@main/public/vat/geo/vertex_animation_textures1_mesh.fbx`,
     `${basePath}geo/vertex_animation_textures1_mesh.fbx`,
     `/vat/geo/vertex_animation_textures1_mesh.fbx`,
     `./vat/geo/vertex_animation_textures1_mesh.fbx`,
@@ -80,6 +82,8 @@ export async function loadVATData(
   ];
 
   const exrCandidates = [
+    `https://cdn.jsdelivr.net/gh/tanwenyang1/paper-crumple-demo@main/public/vat/tex/vertex_animation_textures1_pos.exr`,
+    `https://fastly.jsdelivr.net/gh/tanwenyang1/paper-crumple-demo@main/public/vat/tex/vertex_animation_textures1_pos.exr`,
     `${basePath}tex/vertex_animation_textures1_pos.exr`,
     `/vat/tex/vertex_animation_textures1_pos.exr`,
     `./vat/tex/vertex_animation_textures1_pos.exr`,

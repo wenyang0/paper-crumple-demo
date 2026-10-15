@@ -1,6 +1,6 @@
 {
-  "name": "揉皱情书 · 100句唯美金句",
-  "description": "基于 Houdini 顶点动画纹理 (VAT) 与物理引擎的 3D 纸张揉皱与情书展开交互演示。打开每个纸团，邂逅一封唯美浪漫的心动金句。",
+  "name": "揉皱金句 · 唯美金句",
+  "description": "基于 Houdini 顶点动画纹理 (VAT) 与物理引擎的 3D 纸张揉皱与金句展开交互演示。打开每个纸团，邂逅一封唯美浪漫的心动金句。",
   "permissions": [],
   "capabilities": [
     "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
